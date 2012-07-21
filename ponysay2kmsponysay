@@ -2,7 +2,7 @@
 
 pony="$(cd -P $(dirname "$1") && pwd)/${1##*/}"
 palette="$PONYSAY_KMS_PALETTE"
-[[ "$PONYSAY_KMS_PALETTE_CMD" = "" ]] || palette=$("$PONYSAY_KMS_PALETTE_CMD")
+[[ "$PONYSAY_KMS_PALETTE_CMD" = "" ]] || palette=$($PONYSAY_KMS_PALETTE_CMD)
 
 if [[ ! -f "$pony" ]]; then
     echo -e '\e[01;31mGo buck yourself\e[21;39m'
