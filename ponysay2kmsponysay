@@ -6,13 +6,14 @@ palette="$1"
 if [[ "$palette" = "" ]];
     cat "$pony"
 else
-    protokmsponies="/var/kmsponies4ponysay/protokmsponies"
     palettefile=$(sed -e 's/]P//g' < "$palette")
     kmsponies="/var/kmsponies4ponysay/kmsponies/"$palettefile
-    kmsponies="$kmsponies/$pony"
-    protokmspony="$protokmsponies/$pony"
+    kmspony="$kmsponies/$pony"
     
     if [[ ! -f "$kmspony" ]]; then
+	protokmsponies="/var/kmsponies4ponysay/protokmsponies"
+	protokmspony="$protokmsponies/$pony"
+	
 	if [[ ! -f "$protokmspony" ]]; then
 	    mkdir -p {echo "$pony" | sed -e 's/\/'"${TMP##*/}"'$//g'}
 	    ponysay2ttyponysay < "$pony" > "$protokmspony"
@@ -22,6 +23,6 @@ else
 	tty2colourfultty -e -p "$palette" < "$protokmspony" > "$kmspony"
     fi
     
-    cat "$kmsponies/$pony"
+    cat "$kmspony"
 fi
 
