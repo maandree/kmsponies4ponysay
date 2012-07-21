@@ -1,6 +1,7 @@
 all:
 	echo "Void..."
 
+
 install:
 	install -d -m 1777 "$(DESTDIR)/var/cache/kmsponies4ponysay/"
 	chown ":users" "$(DESTDIR)/var/cache/kmsponies4ponysay/"
@@ -10,4 +11,5 @@ install:
 
 uninstall:
 	rm -r "$(DESTDIR)/var/cache/kmsponies4ponysay/"
+	rm "$(DESTDIR)/usr/bin/ponysay2kmsponysay"
 
