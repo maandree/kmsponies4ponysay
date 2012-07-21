@@ -1,32 +1,33 @@
 #!/bin/bash
 
-pony="$0"
-palette="$1"
+pony="$(cd -P $(dirname "$1") && pwd)/${1##*/}"
+palette="$PONYSAY_KMS_PALETTE"
+[[ "$PONYSAY_KMS_PALETTE_CMD" = "" ]] || palette=$("$PONYSAY_KMS_PALETTE_CMD")
 
-if [[ ! -f "$pony" ]];
+if [[ ! -f "$pony" ]]; then
     echo -e '\e[01;31mGo buck yourself\e[21;39m'
-else if [[ ! "$TERM" = "linux" ]];
+elif [[ ! "$TERM" = "linux" ]] && [[ ! "$TERM" = "-linux-" ]]; then
     cat $pony
 else
-    if [[ "$palette" = "" ]];
+    if [[ "$palette" = "" ]]; then
         palettefile="norm"
     else
-	palettefile=$(sed -e 's/]P//g' < "$palette")
+	palettefile=$(sed -e 's/]P//g' <<<$palette)
     fi
     
     kmsponies="/var/cache/kmsponies4ponysay/kmsponies/"$palettefile
-    kmspony="$kmsponies/$pony"
+    kmspony="$kmsponies$pony"
     
     if [[ ! -f "$kmspony" ]]; then
 	protokmsponies="/var/cache/kmsponies4ponysay/protokmsponies"
-	protokmspony="$protokmsponies/$pony"
+	protokmspony="$protokmsponies$pony"
 	
 	if [[ ! -f "$protokmspony" ]]; then
-	    mkdir -p {echo "$pony" | sed -e 's/\/'"${TMP##*/}"'$//g'}
+	    mkdir -p "$(dirname "$protokmspony")"
 	    ponysay2ttyponysay < "$pony" > "$protokmspony"
 	fi
 	
-	mkdir -p "$kmsponies"
+	mkdir -p "$(dirname "$kmspony")"
 	tty2colourfultty -e -p "$palette" < "$protokmspony" > "$kmspony"
     fi
     
