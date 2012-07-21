@@ -5,10 +5,15 @@ palette="$1"
 
 if [[ ! -f "$pony" ]];
     echo -e '\e[01;31mGo buck yourself\e[21;39m'
-else if [[ "$palette" = "" ]];
-    cat "$pony"
+else if [[ ! "$TERM" = "linux" ]];
+    cat $pony
 else
-    palettefile=$(sed -e 's/]P//g' < "$palette")
+    if [[ "$palette" = "" ]];
+        palettefile="norm"
+    else
+	palettefile=$(sed -e 's/]P//g' < "$palette")
+    fi
+    
     kmsponies="/var/cache/kmsponies4ponysay/kmsponies/"$palettefile
     kmspony="$kmsponies/$pony"
     
