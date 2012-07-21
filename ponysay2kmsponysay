@@ -3,15 +3,17 @@
 pony="$0"
 palette="$1"
 
-if [[ "$palette" = "" ]];
+if [[ ! -f "$pony" ]];
+    echo -e '\e[01;31mGo buck yourself\e[21;39m'
+else if [[ "$palette" = "" ]];
     cat "$pony"
 else
     palettefile=$(sed -e 's/]P//g' < "$palette")
-    kmsponies="/var/kmsponies4ponysay/kmsponies/"$palettefile
+    kmsponies="/var/cache/kmsponies4ponysay/kmsponies/"$palettefile
     kmspony="$kmsponies/$pony"
     
     if [[ ! -f "$kmspony" ]]; then
-	protokmsponies="/var/kmsponies4ponysay/protokmsponies"
+	protokmsponies="/var/cache/kmsponies4ponysay/protokmsponies"
 	protokmspony="$protokmsponies/$pony"
 	
 	if [[ ! -f "$protokmspony" ]]; then
